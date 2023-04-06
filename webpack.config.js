@@ -11,17 +11,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+  ,
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      filename: 'index.html',
-    }),
-  ],
+      template: './src/index.html'
+    })
+  ]
+  ,
   devServer: {
     static: path.join(__dirname, 'dist'),
     compress: true,

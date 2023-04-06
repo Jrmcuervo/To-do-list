@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "start": "webpack serve --mode development"
+    "start": "webpack serve --mode development",
+    "start-project": "npm install npm-run-all stylelint hint --save-dev && git init && npm install && npm run start",
+    "lint": "npm-run-all --parallel lint:style lint:eslint",
+    "lint:style": "stylelint \"src/**/*.{scss,css}\" --fix",
+    "lint:eslint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "repository": {
     "type": "git",
@@ -25,10 +29,11 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.27.5",
-    "hint": "^7.1.8",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "2.8.7",
     "style-loader": "^3.3.2",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^21.0.0",
@@ -44,14 +49,13 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,scss}": [
+    "*.{js,jsx,ts,tsx,scss,css}": [
       "eslint --fix",
-      "stylelint --fix",
-      "hint",
-      "lighthouse"
+      "stylelint \"src/**/*.{scss,css}\" --fix"
     ]
   },
   "dependencies": {
+    "hint": "^7.1.8",
     "lodash": "^4.17.21"
   },
   "main": "webpack.config.js"

@@ -1,7 +1,64 @@
-div {
-  color: red;
+* {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background-color: bisque;
+  font-family: 'Comic Neue', cursive;
+}
+
+.todo {
+  width: 450px;
+  height: 300px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgb(243, 243, 243);
+}
+
+.todo_title,
+.todo_input,
+.task-item,
+p {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid lightgray;
+  list-style: none;
+  background-color: white;
+}
+
+p {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid lightgray;
+  list-style: none;
+  background-color: rgb(243, 243, 243);
+}
+
+.task-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: start;
+  align-items: center;
+  align-content: center;
+  padding: 1rem;
+  gap: 1rem;
+  border: 1px solid lightgray;
+  list-style: none;
+}
+
+#new-task-input {
+  border: none;
 }
