@@ -4,18 +4,18 @@ const tasks = [
   {
     description: 'Complete Microverse project',
     completed: false,
-    index: 1
+    index: 1,
   },
   {
     description: 'Go to the gym',
     completed: true,
-    index: 2
+    index: 2,
   },
   {
     description: 'Buy groceries',
     completed: false,
-    index: 3
-  }
+    index: 3,
+  },
 ];
 
 function renderTasks() {
@@ -33,7 +33,6 @@ function renderTasks() {
     list.appendChild(li);
   });
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
   renderTasks();
