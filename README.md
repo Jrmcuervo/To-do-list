@@ -1,4 +1,4 @@
-# Webpack
+# To Do List
 
 Welcome to my Webpack project
 
@@ -23,9 +23,9 @@ Welcome to my Webpack project
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 Webpack! <a name="about-project"></a>
+# 📖 To Do List! <a name="about-project"></a>
 
-**Webpack!** This project teache me how to setup webpack.
+**To Do List!** This project is to create a list of pending activities and to be able to mark when you have done them, you can also modify the list, delete and move its content. .
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -42,7 +42,7 @@ Welcome to my Webpack project
 
 ### Key Features <a name="key-features"></a>
 
-- **A project to learn how to use webpack**
+- **A to do list**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -60,7 +60,7 @@ Welcome to my Webpack project
   https://git-scm.com/downloads and install it).
 - Step 2: Once you have installed git you can clone this project using the command below:
   ```
-  git clone https://github.com/Jrmcuervo/webpack.git
+  git clone https://github.com/Jrmcuervo/To-do-list.git
   ```
 - Step 3: Once you have cloned this repo navigate to the folder that contains
   the repository.

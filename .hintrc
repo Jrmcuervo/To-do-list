@@ -6,6 +6,7 @@
       }
     },
     "extends": ["development"],
+    "formattersDirectory": "./node_modules/hint/lib/formatters/",
     "formatters": ["stylish"],
     "hints": [
       "button-type",
