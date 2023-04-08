@@ -68,6 +68,38 @@ function clearCompletedTasks() {
   renderTasks();
 }
 
+function editTask(event, index) {
+  event.stopPropagation(); // Prevent the click event from propagating
+  const li = event.target.closest('li');
+  const taskDescription = li.querySelector('span:nth-of-type(2)');
+  const taskDescriptionText = taskDescription.innerText;
+  const input = document.createElement('input');
+  input.value = taskDescriptionText;
+  input.classList.add('edit-input');
+  taskDescription.replaceWith(input);
+  input.focus();
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      const newDescription = input.value.trim();
+      if (newDescription) {
+        tasks[index].description = newDescription;
+        renderTasks();
+      }
+    } else if (event.key === 'Escape') {
+      input.replaceWith(taskDescription);
+    }
+  });
+  input.addEventListener('blur', () => {
+    const newDescription = input.value.trim();
+    if (newDescription) {
+      tasks[index].description = newDescription;
+      renderTasks();
+    } else {
+      input.replaceWith(taskDescription);
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderTasks();
 
@@ -87,6 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
       icon.replaceWith(deleteButton); // Replace the more_vert icon with the delete button
       deleteButton.addEventListener('click', (event) => {
         deleteTask(event, index);
+      });
+      const editButton = document.createElement('span');
+      editButton.innerHTML = 'edit';
+      editButton.classList.add('material-symbols-outlined', 'edit-button');
+      deleteButton.after(editButton); // Add the edit button after the delete button
+      editButton.addEventListener('click', (event) => {
+        editTask(event, index);
       });
     }
   });
