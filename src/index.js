@@ -12,7 +12,8 @@ function renderTasks() {
     const li = document.createElement('li');
     const checkbox = `<input type="checkbox" id="task-${index}" ${task.completed ? 'checked' : ''}>`;
     const icon = '<span class="material-symbols-outlined">more_vert</span>';
-    li.innerHTML = `${checkbox} ${task.description} ${icon}`;
+    const taskDescription = `<span class="task-description">${task.description}</span>`;
+    li.innerHTML = `${checkbox} ${taskDescription} ${icon} <span class="material-symbols-outlined delete-button" style="display:none">delete</span> <span class="material-symbols-outlined edit-button" style="display:none">edit</span>`;
     li.classList.add('task-item');
     if (task.completed) {
       li.classList.add('completed');
@@ -26,6 +27,12 @@ function renderTasks() {
       tasks[index].completed = checkbox.checked;
       renderTasks();
     });
+
+    const taskDescriptionElement = li.querySelector('.task-description');
+    taskDescriptionElement.addEventListener('click', (event) => {
+      editTask(event, index);
+    });
+
   });
 }
 
@@ -71,7 +78,7 @@ function clearCompletedTasks() {
 function editTask(event, index) {
   event.stopPropagation(); // Prevent the click event from propagating
   const li = event.target.closest('li');
-  const taskDescription = li.querySelector('span:nth-of-type(2)');
+  const taskDescription = li.querySelector('.task-description');
   const taskDescriptionText = taskDescription.innerText;
   const input = document.createElement('input');
   input.value = taskDescriptionText;
@@ -84,6 +91,8 @@ function editTask(event, index) {
       if (newDescription) {
         tasks[index].description = newDescription;
         renderTasks();
+      } else {
+        input.replaceWith(taskDescription);
       }
     } else if (event.key === 'Escape') {
       input.replaceWith(taskDescription);
@@ -127,6 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
       editButton.addEventListener('click', (event) => {
         editTask(event, index);
       });
+    } else if (target.classList.contains('delete-button')) {
+      const li = target.parentNode;
+      const index = parseInt(li.querySelector('input').id.split('-')[1], 10);
+      deleteTask(event, index);
+    } else if (target.classList.contains('edit-button')) {
+      const li = target.parentNode;
+      const index = parseInt(li.querySelector('input').id.split('-')[1], 10);
+      editTask(event, index);
     }
   });
 
@@ -145,3 +162,4 @@ document.addEventListener('DOMContentLoaded', () => {
     clearCompletedTasks();
   });
 });
+
