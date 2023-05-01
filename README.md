@@ -85,6 +85,8 @@ Welcome to my Webpack project
 
 ## 🔭 Future Features <a name="future-features"></a>
 
+- **In the next implementations of the project I will add a function that added and remove tasks from the list, there will also be a menu where you can delete and edit tasks, as well as  mark as completed and delete all tasks marked as complete with a button**
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
