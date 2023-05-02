@@ -1,6 +1,6 @@
 # To Do List
 
-Welcome to my Webpack project
+Welcome to my To do list project
 
 <a name="readme-top"></a>
 

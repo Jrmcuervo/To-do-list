@@ -2,6 +2,17 @@ import './style.css';
 
 let tasks = [];
 
+function saveTasksToLocalStorage() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasksFromLocalStorage() {
+  const savedTasks = localStorage.getItem('tasks');
+  if (savedTasks) {
+    tasks = JSON.parse(savedTasks);
+  }
+}
+
 function renderTasks() {
   const list = document.querySelector('#todo-list');
 
@@ -62,23 +73,36 @@ function addTask(description) {
   };
   tasks.push(task);
   renderTasks();
+  saveTasksToLocalStorage();
 }
 
 function deleteTask(event, index) {
   event.stopPropagation(); // Prevent the click event from propagating
   tasks.splice(index, 1);
+
+  // Update the indices of the remaining tasks
+  for (let i = index; i < tasks.length; i++) {
+    tasks[i].index = i + 1;
+  }
+
   renderTasks();
+  saveTasksToLocalStorage();
 }
 
 function clearCompletedTasks() {
   tasks = tasks.filter((task) => !task.completed);
   renderTasks();
+  saveTasksToLocalStorage();
 }
 
 function editTask(event, index) {
   event.stopPropagation(); // Prevent the click event from propagating
   const li = event.target.closest('li');
   const taskDescription = li.querySelector('.task-description');
+  if (!taskDescription) {
+    // El elemento no existe
+    return;
+  }
   const taskDescriptionText = taskDescription.innerText;
   const input = document.createElement('input');
   input.value = taskDescriptionText;
@@ -91,6 +115,7 @@ function editTask(event, index) {
       if (newDescription) {
         tasks[index].description = newDescription;
         renderTasks();
+        saveTasksToLocalStorage();
       } else {
         input.replaceWith(taskDescription);
       }
@@ -110,6 +135,7 @@ function editTask(event, index) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadTasksFromLocalStorage();
   renderTasks();
 
   const list = document.querySelector('#todo-list');
@@ -140,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const li = target.parentNode;
       const index = parseInt(li.querySelector('input').id.split('-')[1], 10);
       deleteTask(event, index);
-    } else if (target.classList.contains('edit-button')) {
+    } else if (target.classList.contains('edit-button') || target.classList.contains('task-description')) {
       const li = target.parentNode;
       const index = parseInt(li.querySelector('input').id.split('-')[1], 10);
       editTask(event, index);
