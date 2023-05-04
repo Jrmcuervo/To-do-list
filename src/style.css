@@ -22,6 +22,7 @@ body {
 .todo_title,
 .todo_input,
 .task-item,
+.todo_button,
 p {
   display: flex;
   flex-direction: row;
@@ -34,7 +35,7 @@ p {
   background-color: white;
 }
 
-p {
+button {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -44,6 +45,7 @@ p {
   border: 1px solid lightgray;
   list-style: none;
   background-color: rgb(243, 243, 243);
+  width: 100%;
 }
 
 .task-item {
@@ -59,6 +61,7 @@ p {
   list-style: none;
 }
 
-#new-task-input {
+#new-task-input,
+.todo_clear {
   border: none;
 }
