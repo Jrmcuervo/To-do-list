@@ -13,10 +13,45 @@ function loadTasksFromLocalStorage() {
   }
 }
 
+function editTask(event, index) {
+  event.stopPropagation();
+  const li = event.target.closest('li');
+  const taskDescription = li.querySelector('.task-description');
+  if (!taskDescription) {
+    return;
+  }
+  const taskDescriptionText = taskDescription.innerText;
+  const input = document.createElement('input');
+  input.value = taskDescriptionText;
+  input.classList.add('edit-input');
+  taskDescription.replaceWith(input);
+  input.focus();
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      const newDescription = input.value.trim();
+      if (newDescription) {
+        tasks[index].description = newDescription;
+        saveTasksToLocalStorage();
+      } else {
+        input.replaceWith(taskDescription);
+      }
+    } else if (event.key === 'Escape') {
+      input.replaceWith(taskDescription);
+    }
+  });
+  input.addEventListener('blur', () => {
+    const newDescription = input.value.trim();
+    if (newDescription) {
+      tasks[index].description = newDescription;
+    } else {
+      input.replaceWith(taskDescription);
+    }
+  });
+}
+
 function renderTasks() {
   const list = document.querySelector('#todo-list');
 
-  // Clear the previous content of the list
   list.innerHTML = '';
 
   tasks.forEach((task, index) => {
@@ -37,33 +72,30 @@ function renderTasks() {
       const index = parseInt(checkbox.id.split('-')[1], 10);
       tasks[index].completed = checkbox.checked;
       renderTasks();
+      saveTasksToLocalStorage();
     });
 
     const taskDescriptionElement = li.querySelector('.task-description');
     taskDescriptionElement.addEventListener('click', (event) => {
       editTask(event, index);
     });
-
   });
 }
 
 function addTask(description) {
-  // Check if a task with the same description (ignoring case) already exists in the tasks array
   const existingTask = tasks.find(
     (task) => task.description.toLowerCase() === description.toLowerCase(),
   );
   if (existingTask) {
-    // Display an error message to the user
     const error = document.createElement('p');
     error.innerText = 'This task is already on the list';
     error.classList.add('error');
     const input = document.querySelector('#new-task-input');
     input.parentNode.insertBefore(error, input.nextSibling);
-    // Remove the error message after 3 seconds
     setTimeout(() => {
       error.remove();
     }, 3000);
-    return; // Don't add the new task if it already exists
+    return;
   }
 
   const task = {
@@ -77,61 +109,25 @@ function addTask(description) {
 }
 
 function deleteTask(event, index) {
-  event.stopPropagation(); // Prevent the click event from propagating
+  event.stopPropagation();
   tasks.splice(index, 1);
 
-  // Update the indices of the remaining tasks
-  for (let i = index; i < tasks.length; i++) {
+  for (let i = index; i < tasks.length; i += 1) {
     tasks[i].index = i + 1;
   }
-
   renderTasks();
   saveTasksToLocalStorage();
 }
 
 function clearCompletedTasks() {
   tasks = tasks.filter((task) => !task.completed);
+
+  for (let i = 0; i < tasks.length; i += 1) {
+    tasks[i].index = i + 1;
+  }
+
   renderTasks();
   saveTasksToLocalStorage();
-}
-
-function editTask(event, index) {
-  event.stopPropagation(); // Prevent the click event from propagating
-  const li = event.target.closest('li');
-  const taskDescription = li.querySelector('.task-description');
-  if (!taskDescription) {
-    // El elemento no existe
-    return;
-  }
-  const taskDescriptionText = taskDescription.innerText;
-  const input = document.createElement('input');
-  input.value = taskDescriptionText;
-  input.classList.add('edit-input');
-  taskDescription.replaceWith(input);
-  input.focus();
-  input.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      const newDescription = input.value.trim();
-      if (newDescription) {
-        tasks[index].description = newDescription;
-        renderTasks();
-        saveTasksToLocalStorage();
-      } else {
-        input.replaceWith(taskDescription);
-      }
-    } else if (event.key === 'Escape') {
-      input.replaceWith(taskDescription);
-    }
-  });
-  input.addEventListener('blur', () => {
-    const newDescription = input.value.trim();
-    if (newDescription) {
-      tasks[index].description = newDescription;
-      renderTasks();
-    } else {
-      input.replaceWith(taskDescription);
-    }
-  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -155,21 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteButton.addEventListener('click', (event) => {
         deleteTask(event, index);
       });
-      const editButton = document.createElement('span');
-      editButton.innerHTML = 'edit';
-      editButton.classList.add('material-symbols-outlined', 'edit-button');
-      deleteButton.after(editButton); // Add the edit button after the delete button
-      editButton.addEventListener('click', (event) => {
-        editTask(event, index);
-      });
     } else if (target.classList.contains('delete-button')) {
       const li = target.parentNode;
       const index = parseInt(li.querySelector('input').id.split('-')[1], 10);
       deleteTask(event, index);
-    } else if (target.classList.contains('edit-button') || target.classList.contains('task-description')) {
-      const li = target.parentNode;
-      const index = parseInt(li.querySelector('input').id.split('-')[1], 10);
-      editTask(event, index);
     }
   });
 
@@ -187,5 +172,31 @@ document.addEventListener('DOMContentLoaded', () => {
   clearCompletedButton.addEventListener('click', () => {
     clearCompletedTasks();
   });
-});
 
+  function saveEditedTask(index) {
+    const li = document.querySelector(`#task-${index}`).parentNode;
+    const taskDescription = li.querySelector('.edit-input');
+    const taskDescriptionText = taskDescription.value.trim();
+    const taskDescriptionElement = document.createElement('span');
+    taskDescriptionElement.classList.add('task-description');
+    taskDescriptionElement.innerText = taskDescriptionText;
+    taskDescription.replaceWith(taskDescriptionElement);
+    tasks[index].description = taskDescriptionText;
+    renderTasks();
+    saveTasksToLocalStorage();
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && document.querySelector('input.edit-input')) {
+      const index = parseInt(document.querySelector('input.edit-input').parentNode.querySelector('input').id.split('-')[1], 10);
+      saveEditedTask(index);
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.classList.contains('edit-input') && document.querySelector('input.edit-input')) {
+      const index = parseInt(document.querySelector('input.edit-input').parentNode.querySelector('input').id.split('-')[1], 10);
+      saveEditedTask(index);
+    }
+  });
+});
