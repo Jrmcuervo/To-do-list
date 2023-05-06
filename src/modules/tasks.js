@@ -1,9 +1,19 @@
-import { saveTasksToLocalStorage, loadTasksFromLocalStorage } from './localStorage.js';
-import { createTaskElement, replaceInputWithTaskDescription } from './helpers.js';
+import getTasks from './helpers.js';
 
-let tasks = [];
+let tasks = getTasks();
 
-function editTask(event, index) {
+export function saveTasksToLocalStorage() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+export function loadTasksFromLocalStorage() {
+  const savedTasks = localStorage.getItem('tasks');
+  if (savedTasks) {
+    tasks = JSON.parse(savedTasks);
+  }
+}
+
+export function editTask(event, index) {
   event.stopPropagation();
   const li = event.target.closest('li');
   const taskDescription = li.querySelector('.task-description');
@@ -21,24 +31,39 @@ function editTask(event, index) {
       const newDescription = input.value.trim();
       if (newDescription) {
         tasks[index].description = newDescription;
-        saveTasksToLocalStorage(tasks);
-        document.dispatchEvent(new Event('taskEdited'));
+        saveTasksToLocalStorage();
       } else {
-        replaceInputWithTaskDescription(li, taskDescription, input);
+        input.replaceWith(taskDescription);
       }
     } else if (event.key === 'Escape') {
-      replaceInputWithTaskDescription(li, taskDescription, input);
+      input.replaceWith(taskDescription);
+    }
+  });
+  input.addEventListener('blur', () => {
+    const newDescription = input.value.trim();
+    if (newDescription) {
+      tasks[index].description = newDescription;
+    } else {
+      input.replaceWith(taskDescription);
     }
   });
 }
 
-function renderTasks() {
+export function renderTasks() {
   const list = document.querySelector('#todo-list');
 
   list.innerHTML = '';
 
   tasks.forEach((task, index) => {
-    const li = createTaskElement(task, index);
+    const li = document.createElement('li');
+    const checkbox = `<input type="checkbox" id="task-${index}" ${task.completed ? 'checked' : ''}>`;
+    const icon = '<span class="material-symbols-outlined">more_vert</span>';
+    const taskDescription = `<span class="task-description">${task.description}</span>`;
+    li.innerHTML = `${checkbox} ${taskDescription} ${icon} <span class="material-symbols-outlined delete-button" style="display:none">delete</span> <span class="material-symbols-outlined edit-button" style="display:none">edit</span>`;
+    li.classList.add('task-item');
+    if (task.completed) {
+      li.classList.add('completed');
+    }
     list.appendChild(li);
 
     const checkboxInput = li.querySelector(`#task-${index}`);
@@ -47,7 +72,7 @@ function renderTasks() {
       const index = parseInt(checkbox.id.split('-')[1], 10);
       tasks[index].completed = checkbox.checked;
       renderTasks();
-      saveTasksToLocalStorage(tasks);
+      saveTasksToLocalStorage();
     });
 
     const taskDescriptionElement = li.querySelector('.task-description');
@@ -57,7 +82,7 @@ function renderTasks() {
   });
 }
 
-function addTask(description) {
+export function addTask(description) {
   const existingTask = tasks.find(
     (task) => task.description.toLowerCase() === description.toLowerCase(),
   );
@@ -80,10 +105,10 @@ function addTask(description) {
   };
   tasks.push(task);
   renderTasks();
-  saveTasksToLocalStorage(tasks);
+  saveTasksToLocalStorage();
 }
 
-function deleteTask(event, index) {
+export function deleteTask(event, index) {
   event.stopPropagation();
   tasks.splice(index, 1);
 
@@ -91,22 +116,5 @@ function deleteTask(event, index) {
     tasks[i].index = i + 1;
   }
   renderTasks();
-  saveTasksToLocalStorage(tasks);
+  saveTasksToLocalStorage();
 }
-
-function clearCompletedTasks() {
-  tasks = tasks.filter((task) => !task.completed);
-
-  for (let i = 0; i < tasks.length; i += 1) {
-    tasks[i].index = i + 1;
-  }
-
-  renderTasks();
-  saveTasksToLocalStorage(tasks);
-}
-
-tasks = loadTasksFromLocalStorage();
-
-export {
-  addTask, deleteTask, clearCompletedTasks, editTask, renderTasks,
-};
