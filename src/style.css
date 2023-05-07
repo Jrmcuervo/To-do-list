@@ -1,10 +1,12 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   font-family: 'Comic Neue', cursive;
+  background-color: rgb(255, 255, 255);
 }
 
 .todo {
@@ -16,7 +18,7 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgb(243, 243, 243);
+  background-color: rgb(255, 255, 255);
 }
 
 .todo_title,
@@ -64,4 +66,35 @@ button {
 #new-task-input,
 .todo_clear {
   border: none;
+}
+
+.taskContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+  align-items: center;
+}
+
+li {
+  list-style: none;
+}
+
+.removeBtn,
+.saveBtn {
+  width: 40px;
+  border: none;
+}
+
+.taskText {
+  width: 70%;
+}
+
+input {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.hidden {
+  display: none;
 }

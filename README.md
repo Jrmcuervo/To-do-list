@@ -84,6 +84,10 @@ Welcome to my To do list project
 <!-- FUTURE FEATURES -->
 
 ## 🔭 Future Features <a name="future-features"></a>
+**In the future this list will have improvements of;**
+**Interaction.**
+**A function will be implemented to be able to drag the tasks and exchange position between them.**
+**The way in which tasks are edited will be improved.**
 
 - **In the next implementations of the project I will add a function that added and remove tasks from the list, there will also be a menu where you can delete and edit tasks, as well as  mark as completed and delete all tasks marked as complete with a button**
 
@@ -110,6 +114,7 @@ If you like this Awesome Books project please share my portfolio with recruters!
 <!-- ACKNOWLEDGEMENTS -->
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
+**Thanks to the tutors and colleagues who helped me and taught me to finish this project**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
