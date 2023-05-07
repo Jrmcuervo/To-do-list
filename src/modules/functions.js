@@ -5,10 +5,13 @@ export function render(tasks) {
   for (let i = 0; i < tasks.length; i += 1) {
     let checked = '';
     if (tasks[i].completed) checked = 'checked';
-    const html = `<li class="taskContainer">
-    <input class="checkBox" type="checkbox" ${checked}>
-    <span class="taskText">${tasks[i].description}</span>
-    <button class="removeBtn" type="button">remove</button></li>
+    const html = `
+      <div class="taskContainer">
+        <input type="checkbox" class="checkBox" ${checked}>
+        <input class="taskText" value="${tasks[i].description}"></input>
+        <button class="saveBtn hidden" type="button">&#x1F4BE;</button>
+        <button class="removeBtn" type="button">&#x1F5D1;</button>       
+      </div>
     `;
     todoListContainer.innerHTML += html;
   }
@@ -36,6 +39,12 @@ export function remove(tasks, index) {
 export function complete(tasks, index) {
   if (tasks[index].completed) tasks[index].completed = false;
   else tasks[index].completed = true;
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// EDIT
+export function edit(tasks, index, newTask) {
+  tasks[index].description = newTask;
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
