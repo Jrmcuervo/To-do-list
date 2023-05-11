@@ -29,6 +29,12 @@ Welcome to my To do list project
 
 ## 🛠 Built With <a name="built-with"></a>
 
+- Webpack
+- Jest testing
+- JavaScript
+- HTML
+- CSS
+
 ### Tech Stack <a name="tech-stack"></a>
 
 <details>
@@ -43,12 +49,14 @@ Welcome to my To do list project
 ### Key Features <a name="key-features"></a>
 
 - **A to do list**
+- **Testing the code**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LIVE DEMO -->
 
 ## 🚀 Live Demo <a name="live-demo"></a>
+
 https://jrmcuervo.github.io/To-do-list/dist/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -80,17 +88,25 @@ https://jrmcuervo.github.io/To-do-list/dist/
 - Twitter: [@Jrmcuervom](https://twitter.com/Jrcuervom)
 - LinkedIn: [Jrmcuervom](https://www.linkedin.com/in/Jrcuervom/)
 
+👤 **steven wafeek**
+
+- GitHub: [StevenWafeek](https://github.com/StevenWafeek)
+- Twitter: [steven_hakeem](https://twitter.com/steven_hakeem)
+- LinkedIn: [steven wafeek
+  ](https://www.linkedin.com/in/steven-wafeek-b629341b6/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE FEATURES -->
 
 ## 🔭 Future Features <a name="future-features"></a>
+
 **In the future this list will have improvements of;**
 **Interaction.**
 **A function will be implemented to be able to drag the tasks and exchange position between them.**
 **The way in which tasks are edited will be improved.**
 
-- **In the next implementations of the project I will add a function that added and remove tasks from the list, there will also be a menu where you can delete and edit tasks, as well as  mark as completed and delete all tasks marked as complete with a button**
+- **In the next implementations of the project I will add a function that added and remove tasks from the list, there will also be a menu where you can delete and edit tasks, as well as mark as completed and delete all tasks marked as complete with a button**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -115,6 +131,7 @@ If you like this Awesome Books project please share my portfolio with recruters!
 <!-- ACKNOWLEDGEMENTS -->
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
+
 **Thanks to the tutors and colleagues who helped me and taught me to finish this project**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
