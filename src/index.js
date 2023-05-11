@@ -1,4 +1,4 @@
-// import './style.css';
+import './style.css';
 import {
   render, add, remove, complete, clearCompleted, edit,
 } from './modules/functions.js';
