@@ -1,4 +1,4 @@
-import { add, remove } from './functions.js';
+import { add, remove, complete, edit, clearCompleted } from './functions.js';
 
 global.localStorage = {
   getItem: jest.fn(),
@@ -65,3 +65,43 @@ describe('remove function', () => {
     expect(tasks[1].index).toBe(2);
   });
 });
+describe('complete function', () => {
+  test('completes a task that is not already completed', () => {
+    const tasks = [
+      { description: 'Task 1', completed: false, index: 1 },
+      { description: 'Task 2', completed: false, index: 2 },
+      { description: 'Task 3', completed: false, index: 3 },
+    ];
+
+    complete(tasks, 1);
+
+    expect(tasks[1].completed).toBe(true);
+  });
+
+  test('uncompletes a task that is already completed', () => {
+    const tasks = [
+      { description: 'Task 1', completed: true, index: 1 },
+      { description: 'Task 2', completed: false, index: 2 },
+      { description: 'Task 3', completed: false, index: 3 },
+    ];
+
+    complete(tasks, 0);
+
+    expect(tasks[0].completed).toBe(false);
+  });
+});
+
+describe('edit function', () => {
+  test('edits the description of a task', () => {
+    const tasks = [
+      { description: 'Task 1', completed: false, index: 1 },
+      { description: 'Task 2', completed: false, index: 2 },
+      { description: 'Task 3', completed: false, index: 3 },
+    ];
+
+    edit(tasks, 1, 'New task description');
+
+    expect(tasks[1].description).toBe('New task description');
+  });
+});
+
